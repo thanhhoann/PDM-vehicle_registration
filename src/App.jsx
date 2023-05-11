@@ -151,7 +151,7 @@ function App() {
             {owner && owner.ownername}
           </ModalHeader>
           <ModalBody fontSize={"1.4rem"}>
-            {owner && vehicle &&
+            {owner && vehicle && registration &&
               (
                 <Box>
                   <Text color={"gray.400"}>ID</Text>

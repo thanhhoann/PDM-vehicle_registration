@@ -2,6 +2,10 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import { supabase } from "../src/utils/supabaseClient.js";
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Box,
   Button,
   Center,
@@ -13,6 +17,7 @@ import {
   Heading,
   Highlight,
   Input,
+  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -20,12 +25,17 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Spinner,
   Stack,
   Text,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
+import Header from "./components/Header";
 
 function App() {
+  const toast = useToast();
+
   const [ownerNameInput, setOwnerNameInput] = useState("");
   const [vehicleIDInput, setVehicleIDInput] = useState("");
 
@@ -74,32 +84,51 @@ function App() {
   };
 
   const handleSubmit = () => {
-    handleOpenModalGetDetails();
+    // owner ID and vehicle ID is blank
+    if (ownerNameInput.length == 0 && vehicleIDInput.length == 0) {
+      toast({
+        title: "Please enter your owner ID and vehicle ID",
+        status: "error",
+        duration: 3500,
+        isClosable: true,
+      });
+      // owner ID is blank
+    } else if (ownerNameInput.length == 0) {
+      toast({
+        title: "Please enter your owner ID",
+        status: "error",
+        duration: 3500,
+        isClosable: true,
+      });
+      // vehicle ID is blank
+    } else if (vehicleIDInput.length == 0) {
+      toast({
+        title: "Please enter your vehicle ID",
+        status: "error",
+        duration: 3500,
+        isClosable: true,
+      });
+    } else {
+      handleOpenModalGetDetails();
 
-    fetchOwner().catch(console.error);
-    fetchVehicle().catch(console.error);
-    fetchRegistration().catch(console.error);
+      fetchOwner().catch(console.error);
+      fetchVehicle().catch(console.error);
+      fetchRegistration().catch(console.error);
 
-    console.log(owner);
-    console.log(vehicle);
-    console.log(registration);
+      console.log(owner);
+      console.log(vehicle);
+      console.log(registration);
 
-    // reset input fields
+      // reset input fields
+      setOwnerNameInput("");
+      setVehicleIDInput("");
+    }
   };
 
   return (
     <>
       <Stack w={"100vw"} h={"100vh"}>
-        <Center my={"3rem"}>
-          <Heading color={"#22223b"}>
-            <Highlight
-              query={"Vehicle Registration Details"}
-              styles={{ px: "2", py: "1", rounded: "full", bg: "orange.100" }}
-            >
-              Find Your Vehicle Registration Details Online
-            </Highlight>
-          </Heading>
-        </Center>
+        <Header />
 
         <Center>
           <Box
@@ -138,6 +167,20 @@ function App() {
             </FormControl>
           </Box>
         </Center>
+
+        <Box
+          position="fixed"
+          bottom={0}
+          width="100%"
+          p={4}
+          textAlign="center"
+          fontWeight="700"
+        >
+          Made by&nbsp;
+          <Link href="https://www.instagram.com/hoanthanh_/" isExternal>
+            @hoanthanh_
+          </Link>
+        </Box>
       </Stack>
 
       <Modal
@@ -151,8 +194,8 @@ function App() {
             {owner && owner.ownername}
           </ModalHeader>
           <ModalBody fontSize={"1.4rem"}>
-            {owner && vehicle && registration &&
-              (
+            {owner && vehicle && registration
+              ? (
                 <Box>
                   <Text color={"gray.400"}>ID</Text>
                   {owner.ownerid}
@@ -191,6 +234,17 @@ function App() {
                   <Text color={"gray.400"}>Registration Place</Text>
                   {registration.regplace}
                 </Box>
+              )
+              : (
+                <Center>
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="black.500"
+                    size="xl"
+                  />
+                </Center>
               )}
           </ModalBody>
 

@@ -34,6 +34,7 @@ import {
 import Header from "./components/Header";
 import { motion } from "framer-motion";
 import ChildrenInfo from "./components/ChildrenInfo";
+import CarPNG from "./assets/car.png";
 
 function App() {
   const toast = useToast();
@@ -85,7 +86,8 @@ function App() {
     else setRegistration(data[0]);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     // owner ID and vehicle ID is blank
     if (ownerNameInput.length == 0 && vehicleIDInput.length == 0) {
       toast({
@@ -138,8 +140,9 @@ function App() {
             p={"20px"}
             border={"1px solid black"}
             borderRadius={"10px"}
+            as="form"
           >
-            <FormControl isRequired>
+            <FormControl onSubmit={handleSubmit} isRequired>
               <Box mb={"10px"}>
                 <FormLabel>Owner ID</FormLabel>
                 <Input
@@ -157,16 +160,16 @@ function App() {
                   onChange={(e) => setVehicleIDInput(e.target.value)}
                 />
               </Box>
-
-              <Button
-                mt={"1.2rem"}
-                w={"full"}
-                variant="outline"
-                onClick={handleSubmit}
-              >
-                Get Details
-              </Button>
             </FormControl>
+            <Button
+              type="submit"
+              mt={"1.2rem"}
+              w={"full"}
+              variant="outline"
+              onClick={handleSubmit}
+            >
+              Get Details
+            </Button>
           </Box>
         </Center>
 
@@ -208,46 +211,37 @@ function App() {
             {owner && vehicle && registration
               ? (
                 <Box>
-                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
-                    <Text color={"gray.400"}>ID</Text>
-                    {owner.ownerid}
-                  </motion.div>
+                  <ChildrenInfo title="ID" content={owner.ownerid} />
                   <Divider my={"0.5rem"} />
-                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
-                    <Text color={"gray.400"}>Address</Text>
-                    {owner.address}
-                  </motion.div>
+                  <ChildrenInfo title="Address" content={owner.address} />
 
                   <Heading mt="2rem" mb="1rem">Vehicle Information</Heading>
-                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
-                    <Text color={"gray.400"}>Vehicle ID</Text>
-                    {vehicle.vehicleid}
-                  </motion.div>
+                  <ChildrenInfo
+                    title="Vehicle ID"
+                    content={vehicle.vehicleid}
+                  />
                   <Divider my={"0.5rem"} />
-                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
-                    <Text color={"gray.400"}>Brand Code</Text>
-                    {vehicle.brandcode}
-                  </motion.div>
+                  <ChildrenInfo
+                    title="Brand Code"
+                    content={vehicle.brandcode}
+                  />
                   <Divider my={"0.5rem"} />
-                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
-                    <Text color={"gray.400"}>Model Code</Text>
-                    {vehicle.modelcode}
-                  </motion.div>
+                  <ChildrenInfo
+                    title="Model Code"
+                    content={vehicle.modelcode}
+                  />
                   <Divider my={"0.5rem"} />
-                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
-                    <Text color={"gray.400"}>Color</Text>
-                    {vehicle.color}
-                  </motion.div>
+                  <ChildrenInfo title="Color" content={vehicle.color} />
                   <Divider my={"0.5rem"} />
-                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
-                    <Text color={"gray.400"}>Engine Number</Text>
-                    {vehicle.engineno}
-                  </motion.div>
+                  <ChildrenInfo
+                    title="Engine Number"
+                    content={vehicle.engineno}
+                  />
                   <Divider my={"0.5rem"} />
-                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
-                    <Text color={"gray.400"}>Class Number</Text>
-                    {vehicle.classicno}
-                  </motion.div>
+                  <ChildrenInfo
+                    title="Class Number"
+                    content={vehicle.classicno}
+                  />
 
                   <Heading mt="2rem" mb="1rem">
                     Registration Information
@@ -293,6 +287,35 @@ function App() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      <motion.div
+        initial={{ x: 0 }}
+        animate={{ x: "300vw" }}
+        transition={{ duration: 5, ease: "easeInOut" }}
+        className="reveal-screen"
+      >
+      </motion.div>
+      <motion.div
+        initial={{ x: "0" }}
+        animate={{ x: "-300vw" }}
+        transition={{ duration: 5, ease: "easeInOut" }}
+        className="reveal-screen"
+      >
+      </motion.div>
+      <motion.div
+        initial={{ y: "0" }}
+        animate={{ y: "-300vh" }}
+        transition={{ duration: 5, ease: "easeInOut" }}
+        className="reveal-screen"
+      >
+      </motion.div>
+      <motion.div
+        initial={{ y: "0" }}
+        animate={{ y: "300vh" }}
+        transition={{ duration: 5, ease: "easeInOut" }}
+        className="reveal-screen"
+      >
+      </motion.div>
     </>
   );
 }

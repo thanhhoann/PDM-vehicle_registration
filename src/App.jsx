@@ -32,6 +32,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import Header from "./components/Header";
+import { motion } from "framer-motion";
+import ChildrenInfo from "./components/ChildrenInfo";
 
 function App() {
   const toast = useToast();
@@ -132,7 +134,7 @@ function App() {
 
         <Center>
           <Box
-            w={300}
+            w={400}
             p={"20px"}
             border={"1px solid black"}
             borderRadius={"10px"}
@@ -168,7 +170,7 @@ function App() {
           </Box>
         </Center>
 
-        <Box
+        <Center
           position="fixed"
           bottom={0}
           width="100%"
@@ -176,11 +178,20 @@ function App() {
           textAlign="center"
           fontWeight="700"
         >
-          Made by&nbsp;
-          <Link href="https://www.instagram.com/hoanthanh_/" isExternal>
-            @hoanthanh_
-          </Link>
-        </Box>
+          <Box
+            bgColor="black"
+            color="white"
+            w="fit-content"
+            px={3}
+            py={1}
+            rounded="1rem"
+          >
+            Made by&nbsp;
+            <Link href="https://www.instagram.com/hoanthanh_/" isExternal>
+              @hoanthanh_
+            </Link>
+          </Box>
+        </Center>
       </Stack>
 
       <Modal
@@ -197,46 +208,69 @@ function App() {
             {owner && vehicle && registration
               ? (
                 <Box>
-                  <Text color={"gray.400"}>ID</Text>
-                  {owner.ownerid}
+                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
+                    <Text color={"gray.400"}>ID</Text>
+                    {owner.ownerid}
+                  </motion.div>
                   <Divider my={"0.5rem"} />
-                  <Text color={"gray.400"}>Address</Text>
-                  {owner.address}
+                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
+                    <Text color={"gray.400"}>Address</Text>
+                    {owner.address}
+                  </motion.div>
 
                   <Heading mt="2rem" mb="1rem">Vehicle Information</Heading>
-                  <Text color={"gray.400"}>Vehicle ID</Text>
-                  {vehicle.vehicleid}
+                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
+                    <Text color={"gray.400"}>Vehicle ID</Text>
+                    {vehicle.vehicleid}
+                  </motion.div>
                   <Divider my={"0.5rem"} />
-                  <Text color={"gray.400"}>Brand Code</Text>
-                  {vehicle.brandcode}
+                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
+                    <Text color={"gray.400"}>Brand Code</Text>
+                    {vehicle.brandcode}
+                  </motion.div>
                   <Divider my={"0.5rem"} />
-                  <Text color={"gray.400"}>Model Code</Text>
-                  {vehicle.modelcode}
+                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
+                    <Text color={"gray.400"}>Model Code</Text>
+                    {vehicle.modelcode}
+                  </motion.div>
                   <Divider my={"0.5rem"} />
-                  <Text color={"gray.400"}>Color</Text>
-                  {vehicle.color}
+                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
+                    <Text color={"gray.400"}>Color</Text>
+                    {vehicle.color}
+                  </motion.div>
                   <Divider my={"0.5rem"} />
-                  <Text color={"gray.400"}>Engine Number</Text>
-                  {vehicle.engineno}
+                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
+                    <Text color={"gray.400"}>Engine Number</Text>
+                    {vehicle.engineno}
+                  </motion.div>
                   <Divider my={"0.5rem"} />
-                  <Text color={"gray.400"}>Class Number</Text>
-                  {vehicle.classicno}
+                  <motion.div initial={{ x: -100 }} animate={{ x: 0 }}>
+                    <Text color={"gray.400"}>Class Number</Text>
+                    {vehicle.classicno}
+                  </motion.div>
 
                   <Heading mt="2rem" mb="1rem">
                     Registration Information
                   </Heading>
-                  <Text color={"gray.400"}>Exp Date</Text>
-                  {registration.expdate}
+                  <ChildrenInfo
+                    title={"Expiration Date"}
+                    content={registration.expdate}
+                  />
                   <Divider my={"0.5rem"} />
-                  <Text color={"gray.400"}>Registration Date</Text>
-                  {registration.regdate}
+                  <ChildrenInfo
+                    title={"Registration Date"}
+                    content={registration.regdate}
+                  />
                   <Divider my={"0.5rem"} />
-                  <Text color={"gray.400"}>Registration Place</Text>
-                  {registration.regplace}
+                  <ChildrenInfo
+                    title={"Registration Place"}
+                    content={registration.regplace}
+                  />
+                  <Divider my={"0.5rem"} />
                 </Box>
               )
               : (
-                <Center>
+                <Center w="100vw" h="100vh">
                   <Spinner
                     thickness="4px"
                     speed="0.65s"
